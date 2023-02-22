@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("nom");
             $table->boolean("estObligatoire")->default(1);
+            $table->foreignId("type_article_id")->constrained();
         });
         Schema::enableForeignKeyConstraints();
     }
@@ -24,7 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-
+        Schema::table('propriete_articles', function (Blueprint $table) {
+            $table->dropForeign("type_article_id");
+        });
         Schema::dropIfExists('propriete_articles');
     }
 };
